@@ -1,24 +1,24 @@
-# 🌐 Gemini Web2API Gateway
+# 🌐 Gemini Web2API Gateway (gem2api)
 
-> **A high-performance local developer gateway bridging Google Gemini Web to OpenAI-compatible clients, Anthropic Claude agents, and Model Context Protocol (MCP) workflows.**
+> **Universal multi-protocol bridge connecting Google Gemini Web sessions to OpenAI & Anthropic Claude APIs with Google 4 Series (4 Neon, 4 Hydrogen), multi-account pooling, and 1-click Web UI management.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![OpenAI Compatible](https://img.shields.io/badge/API-OpenAI%20Compatible-green.svg)](#)
 [![Anthropic Claude Ready](https://img.shields.io/badge/API-Anthropic%20Claude-purple.svg)](#)
+[![Google 4 Series Ready](https://img.shields.io/badge/Model-4%20Neon%20%7C%204%20Hydrogen-blueviolet.svg)](#)
 [![MCP Ready](https://img.shields.io/badge/MCP-Model%20Context%20Protocol-orange.svg)](#)
-[![Cloudflare Ready](https://img.shields.io/badge/Cloudflare-Edge%20Worker-yellow.svg)](#)
 
 ---
 
 ## 📌 Overview
 
-**Gemini Web2API Gateway** is an open-source multi-protocol bridge that translates your Google Gemini Web session into standardized, drop-in replacement REST APIs for:
+**Gemini Web2API Gateway (`gem2api`)** is an open-source multi-protocol bridge that translates your Google Gemini Web session into standardized, drop-in replacement REST APIs for:
 1. **OpenAI API** (`/v1/chat/completions`, `/v1/models`)
 2. **Anthropic Claude Messages API** (`/v1/messages`, `/claude/v1/messages`)
 3. **Gemini Deep Research** (`/gemini/v1beta/interactions`)
-4. **OpenAI Codex Responses** (`/v1/responses`)
-5. **Google GenAI Native REST** (`/v1beta/models/...`)
+4. **Google 4 Series** (`gemini-4-neon`, `gemini-4-hydrogen`, `gemini-4-argon`)
+5. **OpenAI Codex Responses** (`/v1/responses`)
 
 Designed specifically for developers, researchers, and agentic workflows, it connects Gemini Web directly to IDE plugins, local developer tools, and autonomous coding assistants like **Claude Code**, **Cline**, **OpenCode**, **Cursor**, and **OpenDevin** without protocol incompatibilities.
 
@@ -35,12 +35,13 @@ Designed specifically for developers, researchers, and agentic workflows, it con
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────┐
 │                        Gemini Web2API Gateway                          │
+│  • Google 4 Series Ticket Header Engine (4 Neon, 4 Hydrogen, 4 Argon)  │
+│  • Web UI Dashboard & 1-Click Cookie Importer (Cookie-Editor / Raw)   │
+│  • Automatic SNlM0e XSRF Security Token Handshake & Extraction         │
 │  • Anthropic Claude Adapter (translates messages, system & thinking)   │
 │  • Agent Tool Adapter (formats MCP schemas & parallel tool execution)  │
 │  • Deep Research Engine (autonomous multi-stage web-grounded research) │
 │  • Hardened Scotty Resumable Upload (multimodal vision + fallback)     │
-│  • Anti-Extension Keyword Sanitizer (avoids Google Workspace traps)    │
-│  • Conversation Compactor (preserves agent state up to 300k chars)     │
 └───────────────────┬────────────────────────────────┬───────────────────┘
                     │                                │
                     ▼                                ▼
@@ -56,34 +57,65 @@ Designed specifically for developers, researchers, and agentic workflows, it con
                                         ▼
                         ┌───────────────────────────────┐
                         │       Google Gemini Web       │
-                        │  3.8 Flash • 3.5 Lite • Pro   │
+                        │  4 Neon (High / Med / Low)    │
+                        │  4 Hydrogen • 3.8 Flash • Pro │
                         │  Deep Research • Web Search   │
                         └───────────────────────────────┘
 ```
 
 ---
 
-## 🌟 Key Highlights
+## 🚀 Quick Start on Any Device (Termux, Linux, macOS, WSL)
 
-- **🔌 Universal Multi-Protocol Support**:
-  - Full **OpenAI** compatibility (`/v1/chat/completions`, `/v1/models`).
-  - Full **Anthropic Claude** compatibility (`/v1/messages`, `/claude/v1/messages`, `/v1/messages/count_tokens`).
-  - Native **Gemini Deep Research** pipeline (`/gemini/v1beta/interactions`).
-- **🚀 Frontier & Extended Reasoning**:
-  - Out-of-the-box support for **Gemini 3.8 Flash**, **Gemini 3.5 Flash-Lite**, and **Gemini 3.1 Pro**.
-  - Drop-in aliases for **Claude 3.7 Sonnet**, **Claude 3.5 Sonnet**, **Claude 3.5 Haiku**, **GPT-4o**, and **GPT-4**.
-  - Thinking depth adjustable on any model via `@think=0` suffix.
-- **🖼️ Hardened Scotty Resumable Multimodal Upload**:
-  - Dual authentication (page tokens + static internal fallback `Basic c2F2...`).
-  - Auto-compression and support for base64 data URIs, raw base64, Claude image blocks, and URLs.
-- **🛡️ Anti-Extension Keyword Sanitizer**:
-  - Prevents Gemini's pre-flight classifier from mistakenly flagging prompts containing words like *"Google Docs"*, *"Google Drive"*, *"Gmail"*, *"YouTube"*, or *"Webflow"* with permission traps.
-- **⚡ Autonomous Agent Optimizations**:
-  - 300k-character smart compactor preserves Cline / OpenCode / Claude Code state machines during massive parallel tool loops.
-- **☁️ Cloudflare Edge Worker Edition**:
-  - Includes `./cloudflare/worker.js` and `./cloudflare/wrangler.toml` for 1-click zero-cost serverless deployment on Cloudflare Workers.
-- **📊 Real-time Web Dashboard**:
-  - Interactive HTML dashboard (`/dashboard` or `/`) with live multi-protocol playground, account health checks, and sync triggers.
+Deploy in seconds with a single command on any device:
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/mystxnavadeep/gem2api.git
+cd gem2api
+```
+
+### 2. Service Management Commands
+A universal controller script `./run.sh` (and `./gemini-gateway.sh`) is provided:
+
+| Command | Action |
+| :--- | :--- |
+| **`./run.sh start`** | Start gateway as background daemon |
+| **`./run.sh stop`** | Stop background gateway daemon |
+| **`./run.sh restart`** | Restart gateway daemon |
+| **`./run.sh status`** | Check process status, active accounts, and health |
+| **`./run.sh logs`** | Stream live gateway output logs |
+| **`./run.sh run`** | Run in foreground (for debugging) |
+| **`./run.sh test`** | Run automated end-to-end test suite |
+
+```bash
+./run.sh start
+```
+
+### 3. Open the Web Dashboard
+Visit **`http://localhost:10012/`** (or `http://<device-ip>:10012` from any browser on your local network).
+
+---
+
+## 🍪 Adding Accounts & Cookies via UI
+
+You can add and manage multiple Google accounts directly from the Web Dashboard without opening config files or inspecting network devtools:
+
+1. Click **`➕ Add Account / User`** on the dashboard.
+2. Enter an optional **Account Name** (e.g. `tester`, `work_pro`, `personal`) and choose your **Auth Profile** (`0` for primary Google account, `1` for secondary).
+3. Provide your cookies in **ANY** comfortable format:
+   - **Browser Extension JSON Export**: Click "Export JSON" in **Cookie-Editor** or **EditThisCookie** and paste it directly (or click "Upload File" to pick `cookies.json`).
+   - **Raw Cookie Header**: Paste standard header strings (`__Secure-1PSID=...; __Secure-1PSIDTS=...; SID=...; SAPISID=...;`).
+   - **Key-Value JSON**: Paste `{ "__Secure-1PSID": "...", "__Secure-1PSIDTS": "..." }`.
+   - **Gateway Sync Payload**: Paste `{ "cookie": "...", "xsrf_token": "..." }`.
+4. **Automatic Handshake**: Keep *Auto-Extract & Verify* checked. The gateway will:
+   - Calculate Google `SAPISIDHASH` authorization.
+   - Handshake with Google Gemini web servers.
+   - Automatically extract `SNlM0e` (XSRF security token) and build label `cfb2h`.
+   - Capture fresh `__Secure-1PSIDTS` tokens.
+   - Generate a unique dedicated API key (`sk-gemini-<account>-...`).
+   - Register the account into the load-balanced SQLite pool.
+5. Click **`🧪 Test 4 Neon`** next to the newly added account to verify live upstream response and latency!
 
 ---
 
@@ -91,38 +123,18 @@ Designed specifically for developers, researchers, and agentic workflows, it con
 
 | Model ID (API Name) | Protocol Target | Reasoning Engine | Recommended For |
 | :--- | :--- | :---: | :--- |
-| `gemini-3.8-flash` | OpenAI / Claude / Native | Standard | General coding, fast completions, small edits |
-| `gemini-3.8-flash-thinking` | OpenAI / Claude / Native | 🧠 Extended (`mode: 2`) | **Autonomous coding agents, MCP, complex logic** |
+| **`gemini-4-neon`** | OpenAI / Claude / Native | 🧠 Extended (High Thinking) | **Complex coding, architecture, deep reasoning** |
+| `neon-medium` | OpenAI / Claude / Native | 🧠 Extended (Medium) | Balanced deep thinking |
+| `neon-low` | OpenAI / Claude / Native | 🧠 Extended (Low) | Fast structured reasoning |
+| **`gemini-4-hydrogen`** | OpenAI / Claude / Native | Standard | Everyday speed and quick tasks |
+| `gemini-auto` | OpenAI / Claude / Native | Adaptive | Google automatic model selection |
+| `gemini-4-argon` | OpenAI / Claude / Native | Frontier Preview | Experimental Google 4 preview |
+| `gemini-3.8-flash` | OpenAI / Claude / Native | Standard | General coding, fast completions |
+| `gemini-3.8-flash-thinking` | OpenAI / Claude / Native | 🧠 Extended (`mode: 2`) | Autonomous coding agents, MCP |
 | `claude-3-7-sonnet` | Anthropic Claude (`/v1/messages`) | 🧠 Extended | **Claude Code, Cursor, complex agentic workflows** |
 | `claude-3-5-sonnet` | Anthropic Claude (`/v1/messages`) | 🧠 Extended | High-accuracy code architecture & refactoring |
-| `claude-3-5-haiku` | Anthropic Claude (`/v1/messages`) | Standard (`mode: 6`) | Ultra-fast token streaming, summaries, lookups |
-| `gemini-deep-research` | Interactions / OpenAI | 🔍 Grounded Research | Multi-source investigation and report generation |
-| `gemini-3.1-pro` | OpenAI / Claude / Native | Standard (`mode: 3`) | Gemini Advanced subscribers |
-| `gpt-4o` | OpenAI drop-in | 🧠 Extended | Tools with hardcoded model selectors |
-
----
-
-## 🚀 Quick Start
-
-### 1. Installation
-
-```bash
-git clone https://github.com/javedhamzabwn/gemini-web2api.git
-cd gemini-web2api
-pip install -r requirements.txt
-```
-
-### 2. Start the Gateway
-
-**On Windows:**
-Double-click `start_manager.bat` and select option `4`.
-
-**Or via Command Line:**
-```bash
-python -m gemini_web2api --port 10012
-```
-
-Access the Web Dashboard at: **`http://localhost:10012/`**
+| `claude-3-5-haiku` | Anthropic Claude (`/v1/messages`) | Standard (`mode: 6`) | Ultra-fast token streaming, summaries |
+| `gemini-deep-research` | Interactions / OpenAI | 🔍 Grounded Research | Multi-source investigation and report synthesis |
 
 ---
 
@@ -139,15 +151,15 @@ claude
 ### 2. Cline / Roo Code (VS Code Extension)
 - **API Provider**: `Anthropic` or `OpenAI Compatible`
 - **Base URL**: `http://localhost:10012` (for Anthropic) or `http://localhost:10012/v1` (for OpenAI)
-- **API Key**: `sk-gemini-example-key`
-- **Model ID**: `claude-3-7-sonnet` or `gemini-3.8-flash-thinking`
+- **API Key**: Any key or your account-specific key (e.g. `sk-gemini-tester-...`)
+- **Model ID**: `gemini-4-neon` or `claude-3-7-sonnet`
 
 ### 3. OpenCode / OpenCode Studio
-In your custom provider settings:
+In custom provider settings:
 - **Provider**: `OpenAI-Compatible`
 - **Base URL**: `http://localhost:10012/v1`
 - **API Key**: Enter any key or your account-specific key.
-- **Model**: `gemini-3.8-flash-thinking`
+- **Model**: `gemini-4-neon`
 
 ### 4. Cursor / Continue.dev
 In `.cursorrules` or `continue/config.json`:
@@ -155,9 +167,9 @@ In `.cursorrules` or `continue/config.json`:
 {
   "models": [
     {
-      "title": "Gemini 3.8 Flash Thinking",
+      "title": "Google 4 Neon",
       "provider": "openai",
-      "model": "gemini-3.8-flash-thinking",
+      "model": "gemini-4-neon",
       "apiBase": "http://localhost:10012/v1",
       "apiKey": "sk-gemini-example-key"
     },
@@ -176,10 +188,10 @@ In `.cursorrules` or `continue/config.json`:
 
 ## 🧪 End-to-End Verification
 
-A comprehensive automated test suite is included:
+A comprehensive automated test suite covers all protocols:
 
 ```bash
-python -m unittest tests.test_end_to_end
+./run.sh test
 ```
 
 Covers:
@@ -188,7 +200,8 @@ Covers:
 - Token estimation `/v1/messages/count_tokens`
 - Scotty resumable upload MIME parsing and image extraction
 - Deep Research plan generation and synthesis
-- Live server dispatch and multi-account SQLite session integrity
+- UI Cookie parsing across Cookie-Editor arrays, raw strings, and sync objects
+- Multi-account SQLite pool & live upstream session dispatch
 
 ---
 

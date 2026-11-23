@@ -169,6 +169,7 @@ def kill_stale_port(port):
 def main():
     parser = argparse.ArgumentParser(description="Gemini Web to OpenAI API")
     parser.add_argument("--port", type=int, default=None)
+    parser.add_argument("--host", type=str, default=None, help="Host to bind (default: 0.0.0.0)")
     parser.add_argument("--config", type=str, default=None)
     parser.add_argument("--cookie-file", type=str, default=None)
     parser.add_argument("--proxy", type=str, default=None, help="HTTP proxy, e.g. http://127.0.0.1:7890")
@@ -217,6 +218,8 @@ def main():
 
     if args.port:
         CONFIG["port"] = args.port
+    if args.host:
+        CONFIG["host"] = args.host
     if args.cookie_file:
         CONFIG["cookie_file"] = args.cookie_file
     if args.proxy:
