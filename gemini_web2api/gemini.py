@@ -124,23 +124,25 @@ def _account_prefix() -> str:
     """Return the Gemini account path prefix for non-default Google accounts."""
     account = get_current_account()
     auth_user = account.get("auth_user")
-    if auth_user is None or auth_user == "":
+    if auth_user is None or auth_user == "" or str(auth_user) == "0":
         return ""
     return f"/u/{auth_user}"
 
 
-def _build_headers() -> dict:
+def _build_headers(ticket: str = None) -> dict:
     account_prefix = _account_prefix()
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
         "Origin": "https://gemini.google.com",
         "Referer": f"https://gemini.google.com{account_prefix}/app",
         "X-Same-Domain": "1",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
     }
     if account_prefix:
         account = get_current_account()
         headers["X-Goog-AuthUser"] = str(account.get("auth_user"))
+    if ticket:
+        headers["x-goog-ext-525001261-jspb"] = ticket
     cookie_str, sapisid = load_cookie()
     if cookie_str:
         headers["Cookie"] = cookie_str
@@ -184,7 +186,8 @@ def _build_payload(prompt: str, model_id: int, think_mode: int, file_refs: list 
     inner[79] = model_id
     if extra_fields:
         for k, v in extra_fields.items():
-            inner[k] = v
+            if isinstance(k, int) and k < len(inner):
+                inner[k] = v
     outer = [None, json.dumps(inner)]
     params = {"f.req": json.dumps(outer)}
     account = get_current_account()
@@ -285,9 +288,10 @@ def generate(prompt: str, model_id: int, think_mode: int, file_refs: list = None
                 from .multimodal import upload_images
                 file_refs = upload_images(images)
                 
+            ticket = extra_fields.get("_ticket") if extra_fields else None
             body = _build_payload(prompt, model_id, think_mode, file_refs, extra_fields)
             url = _get_url()
-            headers = _build_headers()
+            headers = _build_headers(ticket=ticket)
             
             if session:
                 resp = session.post(url, data=body, headers=headers)
@@ -378,9 +382,10 @@ def generate_stream(prompt: str, model_id: int, think_mode: int, file_refs: list
             from .multimodal import upload_images
             file_refs = upload_images(images)
             
+        ticket = extra_fields.get("_ticket") if extra_fields else None
         body = _build_payload(prompt, model_id, think_mode, file_refs, extra_fields)
         url = _get_url()
-        headers = _build_headers()
+        headers = _build_headers(ticket=ticket)
         try:
             if session:
                 resp = session.post(url, data=body, headers=headers, stream=True)

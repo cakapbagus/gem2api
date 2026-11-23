@@ -133,18 +133,24 @@ class GeminiHandler(BaseHTTPRequestHandler):
                     return True
         return False
 
+    def do_HEAD(self):
+        self.do_GET()
+
     def do_OPTIONS(self):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
         self.send_header("Access-Control-Allow-Headers", "*")
         self.send_header("Access-Control-Max-Age", "86400")
         self.end_headers()
 
     def log_message(self, format, *args):
         # Suppress extremely frequent dashboard polling logs to keep terminal clean
-        if "/api/stats" in args[0] or "/api/status" in args[0]:
-            return
+        try:
+            if args and isinstance(args[0], str) and ("/api/stats" in args[0] or "/api/status" in args[0]):
+                return
+        except Exception:
+            pass
         super().log_message(format, *args)
 
     def _set_headers(self):

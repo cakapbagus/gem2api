@@ -107,6 +107,14 @@ DASHBOARD_HTML = """
                         <option value="auto">Auto Load-Balance</option>
                     </select>
                     <select id="chat-model" class="border rounded px-2.5 py-1 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <optgroup label="Google 4 Series">
+                            <option value="gemini-4-neon" selected>4 Neon (Deeper analysis - High)</option>
+                            <option value="neon-medium">4 Neon (Deeper analysis - Medium)</option>
+                            <option value="neon-low">4 Neon (Deeper analysis - Low)</option>
+                            <option value="gemini-4-hydrogen">4 Hydrogen (Everyday help)</option>
+                            <option value="gemini-auto">Auto (Adapts to your needs)</option>
+                            <option value="gemini-4-argon">4 Argon (Frontier Preview)</option>
+                        </optgroup>
                         <optgroup label="Gemini Native">
                             <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
                             <option value="gemini-3.8-flash-thinking">Gemini 3.8 Flash (Thinking)</option>

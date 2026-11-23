@@ -112,14 +112,46 @@ MODELS = {
         "mode": 2, "think": 0,
         "desc": "Autonomous Gemini Deep Research Agent",
     },
-    # Frontier model aliases
+    # Frontier 4 Series model aliases
+    "gemini-4-neon": {
+        "mode": 2, "think": 0, "extra": {31: 2, 80: 3, "_ticket": '[1,null,null,null,"e6fa609c3fa255c0",null,null,null,[4]]'},
+        "desc": "Deeper analysis (4 Neon - High Thinking)",
+    },
+    "neon": {
+        "mode": 2, "think": 0, "extra": {31: 2, 80: 3, "_ticket": '[1,null,null,null,"e6fa609c3fa255c0",null,null,null,[4]]'},
+        "desc": "Deeper analysis (4 Neon - High Thinking)",
+    },
+    "neon-high": {
+        "mode": 2, "think": 0, "extra": {31: 2, 80: 3, "_ticket": '[1,null,null,null,"e6fa609c3fa255c0",null,null,null,[4]]'},
+        "desc": "Deeper analysis (4 Neon - High Thinking)",
+    },
+    "neon-medium": {
+        "mode": 2, "think": 1, "extra": {31: 2, 80: 3, "_ticket": '[1,null,null,null,"9d8ca3786ebdfbea",null,null,null,[4]]'},
+        "desc": "Deeper analysis (4 Neon - Medium Thinking)",
+    },
+    "neon-low": {
+        "mode": 2, "think": 2, "extra": {31: 2, 80: 3, "_ticket": '[1,null,null,null,"797f3d0293f288ad",null,null,null,[4]]'},
+        "desc": "Deeper analysis (4 Neon - Low Thinking)",
+    },
+    "gemini-4-hydrogen": {
+        "mode": 1, "think": 4, "extra": {"_ticket": '[1,null,null,null,"203e6bb81620bcfe",null,null,null,[4]]'},
+        "desc": "Everyday help (4 Hydrogen)",
+    },
+    "hydrogen": {
+        "mode": 1, "think": 4, "extra": {"_ticket": '[1,null,null,null,"203e6bb81620bcfe",null,null,null,[4]]'},
+        "desc": "Everyday help (4 Hydrogen)",
+    },
+    "auto": {
+        "mode": 4, "think": 4,
+        "desc": "Auto (Adapts to your needs)",
+    },
     "gemini-4-argon": {
-        "mode": 2, "think": 0,
-        "desc": "Frontier model preview",
+        "mode": 2, "think": 0, "extra": {31: 2, 80: 3, "_ticket": '[1,null,null,null,"e6fa609c3fa255c0",null,null,null,[4]]'},
+        "desc": "Frontier model preview (Gemini 4 Argon)",
     },
     "argon": {
-        "mode": 2, "think": 0,
-        "desc": "Frontier model preview",
+        "mode": 2, "think": 0, "extra": {31: 2, 80: 3, "_ticket": '[1,null,null,null,"e6fa609c3fa255c0",null,null,null,[4]]'},
+        "desc": "Frontier model preview (Gemini 4 Argon)",
     },
 }
 
