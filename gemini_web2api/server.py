@@ -15,7 +15,10 @@ from .gemini import generate, generate_stream, log
 from .tools import messages_to_prompt, parse_tool_calls, google_contents_to_prompt, parse_google_function_calls
 from .multimodal import detect_image_mime, fetch_image_bytes, upload_image
 from .database import get_all_accounts
-from .admin import verify_all_accounts, get_stats, delete_account, handle_extension_sync, request_sync, get_sync_status
+from .admin import (
+    verify_all_accounts, get_stats, delete_account, handle_extension_sync,
+    request_sync, get_sync_status, add_account_from_ui, test_single_account
+)
 from .dashboard_html import DASHBOARD_HTML
 from . import __version__
 from .claude_adapter import claude_messages_to_prompt, build_claude_response, claude_stream_events
@@ -360,6 +363,28 @@ class GeminiHandler(BaseHTTPRequestHandler):
             if not clean_path:
                 clean_path = "/"
                 
+            if clean_path in ("/api/accounts", "/api/add-account"):
+                try:
+                    length = int(self.headers.get("Content-Length", 0))
+                    payload = json.loads(self.rfile.read(length).decode("utf-8"))
+                    res = add_account_from_ui(payload)
+                    self._set_headers()
+                    self.wfile.write(json.dumps(res).encode("utf-8"))
+                except Exception as e:
+                    self.send_json({"status": "error", "error": str(e)}, 400)
+                return
+
+            if clean_path == "/api/test-account":
+                try:
+                    length = int(self.headers.get("Content-Length", 0))
+                    payload = json.loads(self.rfile.read(length).decode("utf-8"))
+                    res = test_single_account(payload)
+                    self._set_headers()
+                    self.wfile.write(json.dumps(res).encode("utf-8"))
+                except Exception as e:
+                    self.send_json({"status": "error", "error": str(e)}, 400)
+                return
+
             if clean_path == "/api/sync-cookies":
                 length = int(self.headers.get("Content-Length", 0))
                 payload = json.loads(self.rfile.read(length))
