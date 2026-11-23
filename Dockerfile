@@ -24,4 +24,5 @@ COPY . .
 
 EXPOSE 10012
 
-CMD ["python", "-m", "gemini_web2api", "--host", "0.0.0.0", "--port", "10012"]
+
+CMD ["python", "-m", "gemini_web2api", "--port", "10012"]
